@@ -2,7 +2,7 @@
 // clock a pioneer gets, the record shows the real one, and the two are set side by side: the poster frame.
 //   raea render content/gemcore/leak-trailer.tsx -o content/gemcore/out/leak-trailer.mp4
 import type { ReactElement } from "react";
-import { AbsoluteFill, Audio, Composition, Easing, Sequence, interpolate, registerRoot, staticFile, useCurrentFrame } from "raea";
+import { AbsoluteFill, Audio, Composition, Easing, Mix, Sequence, interpolate, registerRoot, staticFile, useCurrentFrame } from "raea";
 import { Fleet, Sleep } from "./ad";
 import { DIVE_LOG, FILES, TRAILER, WORKER, type LeakFile } from "./lore";
 import { C, FONT, Glass, Glitch, LH, LH_BIG, SOUNDS, Sprite, hash, s, typed, typeFrames } from "./gemcore";
@@ -226,6 +226,8 @@ export function LeakTrailer() {
       {SCENES.map(([from, to, Scene], i) => (
         <Sequence key={i} from={from} durationInFrames={to - from}><Scene /></Sequence>
       ))}
+      {/* the master: -14 LUFS under a -1.5 dBTP limiter (raea check) */}
+      <Mix lufs={-14} />
       {/* the brochure's theme, from its full section; then Judgement Day from the breach to the end */}
       <Sequence from={T.ad} durationInFrames={T.breach}><Audio src={staticFile(SOUNDS.theme)} startFrom={s(18)} fadeOut={0.2} /></Sequence>
       <Sequence from={T.breach} durationInFrames={T.end - T.breach}><Audio src={staticFile(SOUNDS.judgement)} fadeOut={3} /></Sequence>

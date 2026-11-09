@@ -1,7 +1,7 @@
 // The Pioneer Program's shots: GemCore's recruitment ad, the public myth at full warmth (storyboard:
 // pioneer-ad.script.ts). Five promises, one subject each, on a camera that never stops drifting; the end card's fine
 // print tells the truth in plain sight. No registerRoot here: pioneer-ad.tsx is the ad, leak-trailer.tsx reuses shots.
-import { AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurrentFrame } from "raea";
+import { AbsoluteFill, Audio, Easing, Mix, Sequence, interpolate, staticFile, useCurrentFrame } from "raea";
 import { AD } from "./lore";
 import { C, FONT, LH, SOUNDS, Sprite, hash, s, typed, type SpriteName } from "./gemcore";
 
@@ -181,6 +181,8 @@ export function PioneerAd() {
       <Sequence from={SHOTS.length * BEAT} durationInFrames={END}>
         <EndCard />
       </Sequence>
+      {/* the master: -14 LUFS under a -1.5 dBTP limiter (raea check) */}
+      <Mix lufs={-14} />
       <Audio src={staticFile(SOUNDS.theme)} endAt={AD_FRAMES} fadeOut={2} />
     </AbsoluteFill>
   );

@@ -33,6 +33,15 @@ the frame list. Sprite frames are named by GUID in each `.yy`, so `gemcore.gen.t
 bun content/gemcore/tools/gen-assets.ts
 ```
 
+## Rendering
+
+Renders go to `content/gemcore/out/`, which git ignores. `raea check content/gemcore/out/NAME.mp4` checks sound and
+picture; all three pass its loudness check (-14 LUFS, through `<Mix lufs={-14} />`). The only note it leaves is that
+there's no `brand.json`, which is for a real company's brand kit and doesn't apply here.
+
+On Linux with no GPU, raea renders on Mesa's software Vulkan driver (`apt install mesa-vulkan-drivers`). That's about
+70 ms a frame at 1080p: the ad takes about 70 s and the trailer about 2 minutes.
+
 ## Checks
 
 Run the tests by file name. A bare `bun test content/gemcore` follows the `media` link into GemCore's own tests.

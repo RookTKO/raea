@@ -8,7 +8,7 @@
 // The rules are terminal.ts, a pure fold over the keys (useGameState), so a render, a replay and a play-through agree. Nobody at the
 // keys: the attract script plays (a wrong guess, the right files, the right answers). The first key a person presses
 // hands the terminal to them.
-import { AbsoluteFill, Audio, Composition, Sequence, registerRoot, staticFile, useCurrentFrame, useGameEvents, useGameState } from "raea";
+import { AbsoluteFill, Audio, Composition, Mix, Sequence, registerRoot, staticFile, useCurrentFrame, useGameEvents, useGameState } from "raea";
 import { FILES, TERMINAL, WORKER } from "./lore";
 import { FPS, FRAMES, INITIAL, step, type Term } from "./terminal";
 import { C, FONT, Glass, LH, SOUNDS, Sprite, hash, typed } from "./gemcore";
@@ -120,6 +120,8 @@ export function CycleTerminal() {
         {g.mode === "breach" ? <Breach g={g} frame={frame} /> : null}
         <div style={{ position: "absolute", left: 80, bottom: 28, fontSize: 18, color: C.paper, opacity: 0.45 }}>{TERMINAL.help}</div>
       </AbsoluteFill>
+      {/* the master: -14 LUFS under a -1.5 dBTP limiter (raea check) */}
+      <Mix lufs={-14} />
       {wrongs.map((f) => <Sequence key={`w${f}`} from={f} durationInFrames={FPS}><Audio src={staticFile(SOUNDS.radar)} volume={0.5} /></Sequence>)}
       {breaches.map((f) => <Sequence key={`b${f}`} from={f} durationInFrames={3 * FPS}><Audio src={staticFile(SOUNDS.glass)} volume={0.7} /></Sequence>)}
     </Glass>
