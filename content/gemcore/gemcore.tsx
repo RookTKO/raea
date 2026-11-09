@@ -19,6 +19,12 @@ export const C = {
 
 export const FONT = '"Corp Console", monospace';
 
+/** Corp Console draws about 1.35 em tall, past its own ascent and descent, so tighter lines overlap: every block of
+ *  its text uses this line height (measured with boxes drawn round the text). */
+export const LH = 1.6;
+/** Display sizes (about 100 px and up) reach higher still past their box: their line height */
+export const LH_BIG = 1.9;
+
 export type SpriteName = keyof typeof SPRITES;
 
 /** A GemCore sprite at a whole-number scale, nearest-neighbour; it steps through its frames at `fps` unless `frame`
@@ -103,7 +109,7 @@ export function Glitch({ at, frames, children, strength = 1 }: { at: number; fra
 
 /** Corp Console text with the defaults every piece uses */
 export function Type({ children, size = 48, color = C.paper, style }: { children: ReactNode; size?: number; color?: string; style?: CSSProperties }) {
-  return <div style={{ fontFamily: FONT, fontSize: size, color, lineHeight: 1.15, whiteSpace: "pre-wrap", ...style }}>{children}</div>;
+  return <div style={{ fontFamily: FONT, fontSize: size, color, lineHeight: LH, whiteSpace: "pre-wrap", ...style }}>{children}</div>;
 }
 
 /** Seconds to frames at 30 fps (every piece here runs at 30) */

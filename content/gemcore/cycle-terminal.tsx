@@ -11,7 +11,7 @@
 import { AbsoluteFill, Audio, Composition, Sequence, registerRoot, staticFile, useCurrentFrame, useGameEvents, useGameState } from "raea";
 import { FILES, TERMINAL, WORKER } from "./lore";
 import { FPS, FRAMES, INITIAL, step, type Term } from "./terminal";
-import { C, FONT, Glass, SOUNDS, Sprite, hash, typed } from "./gemcore";
+import { C, FONT, Glass, LH, SOUNDS, Sprite, hash, typed } from "./gemcore";
 
 export { playtest } from "./terminal";
 
@@ -20,26 +20,32 @@ export { playtest } from "./terminal";
 // ------------------------------------------------------------------------------------------------------------------
 function Header({ g }: { g: Term }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 36, borderBottom: `2px solid ${C.paper}33`, paddingBottom: 18 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 28, borderBottom: `2px solid ${C.paper}33`, paddingBottom: 12, whiteSpace: "nowrap" }}>
       <Sprite name="spr_player_probe" scale={2} fps={8} />
-      <div style={{ fontSize: 24, color: C.paper, opacity: 0.75 }}>{TERMINAL.title}  /  PIONEER {WORKER.id}</div>
+      <div>
+        <div style={{ fontSize: 16, color: C.paper, opacity: 0.55 }}>{TERMINAL.title}</div>
+        <div style={{ fontSize: 24, color: C.paper }}>PIONEER {WORKER.id}</div>
+      </div>
       <div style={{ flex: 1 }} />
-      <div style={{ fontSize: 22, color: C.paper, opacity: 0.6 }}>RANK: {WORKER.rank.toUpperCase()}</div>
-      <div style={{ fontSize: 40, color: C.warning }}>CYCLE {g.cycle}</div>
+      <div style={{ textAlign: "right" }}>
+        <div style={{ fontSize: 16, color: C.paper, opacity: 0.55 }}>RANK</div>
+        <div style={{ fontSize: 20, color: C.paper }}>{WORKER.rank.toUpperCase()}</div>
+      </div>
+      <div style={{ fontSize: 40, color: C.warning, marginLeft: 20 }}>CYCLE {g.cycle}</div>
     </div>
   );
 }
 
 function List({ g }: { g: Term }) {
   return (
-    <div style={{ marginTop: 26 }}>
-      <div style={{ fontSize: 22, color: C.paper, opacity: 0.55, marginBottom: 14 }}>ARCHIVE (LEAKED)   DATE: NOT AVAILABLE TO PIONEERS</div>
+    <div style={{ marginTop: 20 }}>
+      <div style={{ fontSize: 18, color: C.paper, opacity: 0.55, marginBottom: 10 }}>ARCHIVE (LEAKED)   DATE: NOT AVAILABLE TO PIONEERS</div>
       {FILES.map((f, i) => {
         const on = i === g.sel;
         return (
-          <div key={f.code} style={{ display: "flex", gap: 24, fontSize: 28, lineHeight: 1.7, color: on ? C.glass : C.paper, background: on ? C.paper : "transparent", padding: "0 14px" }}>
-            <div style={{ width: 170 }}>{f.code}</div>
-            <div style={{ width: 210, color: on ? C.glass : f.redacted ? C.danger : C.paper }}>{f.redacted ? "GC REDACTED" : `GC ${f.year}`}</div>
+          <div key={f.code} style={{ display: "flex", gap: 20, fontSize: 21, lineHeight: LH, whiteSpace: "nowrap", color: on ? C.glass : C.paper, background: on ? C.paper : "transparent", padding: "0 14px" }}>
+            <div style={{ width: 200, flexShrink: 0 }}>{f.code}</div>
+            <div style={{ width: 230, flexShrink: 0, color: on ? C.glass : f.redacted ? C.danger : C.paper }}>{f.redacted ? "GC REDACTED" : `GC ${f.year}`}</div>
             <div style={{ flex: 1 }}>{f.title}</div>
             <div style={{ width: 70, opacity: 0.6 }}>{g.read[i] ? "READ" : ""}</div>
           </div>
@@ -60,7 +66,7 @@ function FileView({ g, frame }: { g: Term; frame: number }) {
       {f.body.map((l) => {
         const start = at;
         at += Math.ceil((l.length * FPS) / 90) + 3;
-        return <div key={l} style={{ fontSize: 28, lineHeight: 1.55, color: C.paper }}>{typed(l, frame, start, 90)}</div>;
+        return <div key={l} style={{ fontSize: 26, color: C.paper }}>{typed(l, frame, start, 90)}</div>;
       })}
     </div>
   );
@@ -85,14 +91,14 @@ function Breach({ g, frame }: { g: Term; frame: number }) {
   const k = frame - g.modeAt;
   const shake = k < 20 ? (hash(frame) - 0.5) * 24 : 0;
   return (
-    <div style={{ marginTop: 60, transform: `translateX(${shake}px)` }}>
-      <div style={{ fontSize: 56, color: C.danger }}>{TERMINAL.breach}</div>
-      <div style={{ fontSize: 30, color: C.paper, marginTop: 24, lineHeight: 1.6 }}>
+    <div style={{ marginTop: 34, transform: `translateX(${shake}px)` }}>
+      <div style={{ fontSize: 46, color: C.danger }}>{TERMINAL.breach}</div>
+      <div style={{ fontSize: 24, color: C.paper, marginTop: 10 }}>
         <div>GC YEAR: {WORKER.now}. SIGNED: GC {WORKER.signed}.</div>
         <div>RE-UPLOADS: {g.reuploads}. NEXT: {g.reuploads + 1}.</div>
       </div>
-      <div style={{ fontSize: 30, color: C.paper, marginTop: 30 }}>{typed(TERMINAL.scheduled, frame, g.modeAt + 30, 40)}</div>
-      <div style={{ fontSize: 26, color: C.warning, marginTop: 40, opacity: k > 60 ? 1 : 0 }}>{TERMINAL.again}</div>
+      <div style={{ fontSize: 24, color: C.paper, marginTop: 18, minHeight: 24 * LH }}>{typed(TERMINAL.scheduled, frame, g.modeAt + 30, 40)}</div>
+      <div style={{ fontSize: 22, color: C.warning, marginTop: 18, opacity: k > 60 ? 1 : 0 }}>{TERMINAL.again}</div>
     </div>
   );
 }
@@ -105,14 +111,14 @@ export function CycleTerminal() {
   const breaches = useGameEvents(INITIAL, step, (a, b) => a.mode !== "breach" && b.mode === "breach");
   return (
     <Glass>
-      <AbsoluteFill style={{ fontFamily: FONT, padding: "56px 80px" }}>
+      <AbsoluteFill style={{ fontFamily: FONT, lineHeight: LH, padding: "48px 80px" }}>
         <Header g={g} />
         {g.mode === "list" ? <List g={g} /> : null}
         {g.mode === "file" ? <FileView g={g} frame={frame} /> : null}
         {g.mode === "q1" || g.mode === "q2" ? <Query g={g} frame={frame} /> : null}
         {g.mode === "wrong" ? <Wrong g={g} frame={frame} /> : null}
         {g.mode === "breach" ? <Breach g={g} frame={frame} /> : null}
-        <div style={{ position: "absolute", left: 80, bottom: 40, fontSize: 20, color: C.paper, opacity: 0.45 }}>{TERMINAL.help}</div>
+        <div style={{ position: "absolute", left: 80, bottom: 28, fontSize: 18, color: C.paper, opacity: 0.45 }}>{TERMINAL.help}</div>
       </AbsoluteFill>
       {wrongs.map((f) => <Sequence key={`w${f}`} from={f} durationInFrames={FPS}><Audio src={staticFile(SOUNDS.radar)} volume={0.5} /></Sequence>)}
       {breaches.map((f) => <Sequence key={`b${f}`} from={f} durationInFrames={3 * FPS}><Audio src={staticFile(SOUNDS.glass)} volume={0.7} /></Sequence>)}

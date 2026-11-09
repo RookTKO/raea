@@ -42,7 +42,7 @@ bun test ./content/gemcore/lore.test.ts ./content/gemcore/cycle-terminal.test.ts
 ```
 
 ```bash
-sdk/raea/node_modules/.bin/tsc -p content/gemcore
+sdk/raea/node_modules/.bin/tsc -p content/gemcore/tsconfig.check.json
 ```
 
 ```bash

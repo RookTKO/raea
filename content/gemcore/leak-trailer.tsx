@@ -5,7 +5,7 @@ import type { ReactElement } from "react";
 import { AbsoluteFill, Audio, Composition, Easing, Sequence, interpolate, registerRoot, staticFile, useCurrentFrame } from "raea";
 import { Fleet, Sleep } from "./ad";
 import { DIVE_LOG, FILES, TRAILER, WORKER, type LeakFile } from "./lore";
-import { C, FONT, Glass, Glitch, SOUNDS, Sprite, hash, s, typed, typeFrames } from "./gemcore";
+import { C, FONT, Glass, Glitch, LH, LH_BIG, SOUNDS, Sprite, hash, s, typed, typeFrames } from "./gemcore";
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
@@ -52,8 +52,8 @@ function Breach() {
   const f = useCurrentFrame();
   return (
     <Glass>
-      <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", fontFamily: FONT }}>
-        <div style={{ fontSize: 46, color: C.danger, letterSpacing: 3 }}>{typed(TRAILER.breach, f, 4, 60)}</div>
+      <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", fontFamily: FONT, lineHeight: LH }}>
+        <div style={{ fontSize: 38, color: C.danger, letterSpacing: 3, width: 1500, textAlign: "center" }}>{typed(TRAILER.breach, f, 4, 60)}</div>
       </AbsoluteFill>
     </Glass>
   );
@@ -62,7 +62,7 @@ function Breach() {
 // C. The cockpit: a small ship, a big counter, the Dive Log, and the question it can't answer
 function Cockpit() {
   const f = useCurrentFrame();
-  const push = interpolate(f, [0, T.record - T.cockpit], [1, 1.08]);
+  const push = interpolate(f, [0, T.record - T.cockpit], [1, 1.06]);
   let at = 30;
   const lines = DIVE_LOG.map((l) => {
     const start = at;
@@ -72,19 +72,19 @@ function Cockpit() {
   const ask = at + 20;
   return (
     <Glass>
-      <AbsoluteFill style={{ transform: `scale(${push})`, fontFamily: FONT, padding: "110px 150px" }}>
+      <AbsoluteFill style={{ transform: `scale(${push})`, fontFamily: FONT, lineHeight: LH, padding: "90px 150px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 48 }}>
           <Sprite name="spr_player_probe" scale={4} fps={8} />
           <div>
-            <div style={{ fontSize: 34, color: C.paper, opacity: 0.7 }}>PIONEER {WORKER.id}</div>
-            <div style={{ fontSize: 150, color: C.warning }}>CYCLE {WORKER.cycle}</div>
+            <div style={{ fontSize: 30, color: C.paper, opacity: 0.7 }}>PIONEER {WORKER.id}</div>
+            <div style={{ fontSize: 110, lineHeight: LH_BIG, color: C.warning }}>CYCLE {WORKER.cycle}</div>
           </div>
         </div>
-        <div style={{ marginTop: 50, fontSize: 38, color: C.paper, lineHeight: 1.45 }}>
-          {lines.map(({ l, start }) => <div key={l}>{typed(l, f, start, 50)}</div>)}
+        <div style={{ marginTop: 30, fontSize: 32, color: C.paper }}>
+          {lines.map(({ l, start }) => <div key={l} style={{ minHeight: 32 * LH }}>{typed(l, f, start, 50)}</div>)}
         </div>
-        <div style={{ marginTop: 50, fontSize: 64, color: C.paper, opacity: f >= ask ? 1 : 0 }}>{TRAILER.question}</div>
-        <div style={{ marginTop: 12, fontSize: 34, color: C.danger }}>{typed(TRAILER.unknown, f, ask + 30, 40)}</div>
+        <div style={{ marginTop: 34, fontSize: 54, color: C.paper, opacity: f >= ask ? 1 : 0 }}>{TRAILER.question}</div>
+        <div style={{ fontSize: 30, color: C.danger }}>{typed(TRAILER.unknown, f, ask + 30, 40)}</div>
       </AbsoluteFill>
     </Glass>
   );
@@ -102,30 +102,31 @@ function FileCard({ file, index }: { file: LeakFile; index: number }) {
   }
   const lit = f >= at + 4;
   return (
-    <AbsoluteFill style={{ fontFamily: FONT, padding: "120px 150px", flexDirection: "row", gap: 80 }}>
-      <div style={{ width: 420, transform: `translateY(${slide}px)` }}>
-        <div style={{ fontSize: 40, color: C.paper, opacity: 0.6 }}>GC YEAR</div>
-        <div style={{ fontSize: 220, color: C.danger, lineHeight: 1 }}>{file.year}</div>
-        <div style={{ fontSize: 30, color: C.paper, opacity: 0.6, marginTop: 20 }}>FILE {index + 1} / {FILES.length}</div>
+    <AbsoluteFill style={{ fontFamily: FONT, lineHeight: LH, padding: "110px 150px", flexDirection: "row", gap: 70 }}>
+      <div style={{ width: 400, transform: `translateY(${slide}px)` }}>
+        <div style={{ fontSize: 32, color: C.paper, opacity: 0.6 }}>GC YEAR</div>
+        <div style={{ fontSize: 170, lineHeight: LH_BIG, color: C.danger }}>{file.year}</div>
+        <div style={{ fontSize: 26, color: C.paper, opacity: 0.6 }}>FILE {index + 1} / {FILES.length}</div>
       </div>
       <div style={{ flex: 1, transform: `translateX(${slide}px)` }}>
-        <div style={{ fontSize: 30, color: C.paper, opacity: 0.6 }}>{file.code} / {file.from}</div>
-        <div style={{ fontSize: 60, color: C.paper, marginTop: 10, marginBottom: 36 }}>{file.title}</div>
+        <div style={{ fontSize: 26, color: C.paper, opacity: 0.6 }}>{file.code} / {file.from}</div>
+        <div style={{ fontSize: 50, color: C.paper, marginBottom: 20 }}>{file.title}</div>
         {typedLines.map(({ text, start }) => {
           const shown = typed(text, f, start, CPS);
           const key = lit && file.key.some((k) => text.includes(k));
-          return <div key={text} style={{ fontSize: 40, lineHeight: 1.4, color: key ? C.danger : C.paper }}>{shown}</div>;
+          return <div key={text} style={{ fontSize: 32, color: key ? C.danger : C.paper }}>{shown}</div>;
         })}
       </div>
     </AbsoluteFill>
   );
 }
 
-// D. The record: each file in turn, under a timeline whose marker runs from GC 0 to GC 112
+// D. The record: each file in turn, over a timeline whose marker steps from file to file, GC 0 to GC 112
 function Record() {
   const f = useCurrentFrame();
   const i = Math.max(0, STARTS.findLastIndex((st) => st <= f));
-  const year = interpolate(f, STARTS, FILES.map((x) => x.year), clamp);
+  const from = i === 0 ? 0 : FILES[i - 1].year;
+  const year = interpolate(f - STARTS[i], [0, 14], [from, FILES[i].year], { ...clamp, easing: Easing.out(Easing.cubic) });
   const x = 150 + (year / WORKER.now) * (1920 - 300);
   return (
     <Glass>
@@ -134,10 +135,12 @@ function Record() {
           <FileCard file={file} index={k} />
         </Sequence>
       ))}
-      <div style={{ position: "absolute", left: 150, right: 150, bottom: 90, height: 2, background: C.paper, opacity: 0.35 }} />
-      <div style={{ position: "absolute", left: x - 8, bottom: 82, width: 16, height: 18, background: C.danger }} />
-      <div style={{ position: "absolute", left: x - 80, width: 160, bottom: 30, textAlign: "center", fontFamily: FONT, fontSize: 28, color: C.danger }}>GC {Math.round(year)}</div>
-      <div style={{ position: "absolute", left: 150, top: 56, fontFamily: FONT, fontSize: 26, color: C.paper, opacity: 0.5 }}>{FILES[i].code}</div>
+      <div style={{ position: "absolute", left: 150, right: 150, bottom: 100, height: 2, background: C.paper, opacity: 0.35 }} />
+      {FILES.map((file) => (
+        <div key={file.code} style={{ position: "absolute", left: 150 + (file.year / WORKER.now) * 1620 - 1, bottom: 94, width: 2, height: 14, background: C.paper, opacity: 0.35 }} />
+      ))}
+      <div style={{ position: "absolute", left: x - 8, bottom: 92, width: 16, height: 18, background: C.danger }} />
+      <div style={{ position: "absolute", left: x - 100, width: 200, bottom: 30, textAlign: "center", fontFamily: FONT, lineHeight: LH, fontSize: 26, color: C.danger }}>GC {Math.round(year)}</div>
     </Glass>
   );
 }
@@ -149,21 +152,21 @@ function Cross() {
   const bridge = interpolate(f, [70, 130], [0, 1], { ...clamp, easing: Easing.inOut(Easing.cubic) });
   return (
     <Glass>
-      <AbsoluteFill style={{ fontFamily: FONT, flexDirection: "row", alignItems: "center", justifyContent: "space-between", padding: "0 150px" }}>
-        <div style={{ opacity: show(0), textAlign: "center", width: 620 }}>
-          <div style={{ fontSize: 40, color: C.paper, opacity: 0.6 }}>{TRAILER.cockpit}</div>
-          <div style={{ fontSize: 170, color: C.warning }}>CYCLE {WORKER.cycle}</div>
+      <AbsoluteFill style={{ fontFamily: FONT, lineHeight: LH, flexDirection: "row", justifyContent: "space-between", padding: "150px 110px 0" }}>
+        <div style={{ opacity: show(0), textAlign: "center", width: 800 }}>
+          <div style={{ fontSize: 34, color: C.paper, opacity: 0.6 }}>{TRAILER.cockpit}</div>
+          <div style={{ fontSize: 110, lineHeight: LH_BIG, color: C.warning, whiteSpace: "nowrap" }}>CYCLE {WORKER.cycle}</div>
         </div>
-        <div style={{ opacity: show(30), textAlign: "center", width: 620 }}>
-          <div style={{ fontSize: 40, color: C.paper, opacity: 0.6 }}>{TRAILER.record}</div>
-          <div style={{ fontSize: 170, color: C.danger }}>GC {WORKER.now}</div>
+        <div style={{ opacity: show(30), textAlign: "center", width: 800 }}>
+          <div style={{ fontSize: 34, color: C.paper, opacity: 0.6 }}>{TRAILER.record}</div>
+          <div style={{ fontSize: 110, lineHeight: LH_BIG, color: C.danger, whiteSpace: "nowrap" }}>GC {WORKER.now}</div>
         </div>
       </AbsoluteFill>
-      <div style={{ position: "absolute", left: 960 - 260 * bridge, width: 520 * bridge, top: 600, height: 4, background: C.paper }} />
-      <AbsoluteFill style={{ fontFamily: FONT, alignItems: "center", top: 640 }}>
-        <div style={{ fontSize: 34, color: C.paper, opacity: show(100) * 0.7 }}>{TRAILER.signed}</div>
-        <div style={{ fontSize: 120, color: C.paper, opacity: show(140) }}>{TRAILER.passed}</div>
-        <div style={{ fontSize: 56, color: C.danger, opacity: show(200), marginTop: 10 }}>{TRAILER.reuploads}</div>
+      <div style={{ position: "absolute", left: 960 - 560 * bridge, width: 1120 * bridge, top: 470, height: 4, background: C.paper }} />
+      <AbsoluteFill style={{ fontFamily: FONT, lineHeight: LH, alignItems: "center", top: 510 }}>
+        <div style={{ fontSize: 30, color: C.paper, opacity: show(100) * 0.7 }}>{TRAILER.signed}</div>
+        <div style={{ fontSize: 120, lineHeight: LH_BIG, color: C.paper, opacity: show(140) }}>{TRAILER.passed}</div>
+        <div style={{ fontSize: 48, color: C.danger, opacity: show(200) }}>{TRAILER.reuploads}</div>
       </AbsoluteFill>
     </Glass>
   );
@@ -176,12 +179,12 @@ function Reset() {
   const flash = interpolate(f, [0, 3, 14], [0, 1, 0], clamp);
   return (
     <Glass>
-      <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", fontFamily: FONT }}>
+      <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", fontFamily: FONT, lineHeight: LH }}>
         {f < 70 ? <Sprite name="spr_ship_destroyed" scale={8} fps={18} loop={false} /> : null}
         {f >= 70 ? (
           <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: 40, color: C.paper, opacity: 0.7 }}>{typed(TRAILER.reset, f, 70, 30)}</div>
-            <div style={{ fontSize: 200, color: C.warning, transform: `translateX(${f < 84 ? (hash(f) - 0.5) * 30 : 0}px)` }}>CYCLE {counter}</div>
+            <div style={{ fontSize: 34, color: C.paper, opacity: 0.7, minHeight: 34 * LH }}>{typed(TRAILER.reset, f, 70, 30)}</div>
+            <div style={{ fontSize: 150, lineHeight: LH_BIG, color: C.warning, transform: `translateX(${f < 84 ? (hash(f) - 0.5) * 30 : 0}px)` }}>CYCLE {counter}</div>
           </div>
         ) : null}
       </AbsoluteFill>
@@ -197,10 +200,10 @@ function Title() {
   return (
     <Glitch at={s(2.2)} frames={5} strength={0.5}>
       <Glass>
-        <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", fontFamily: FONT, opacity: show }}>
+        <AbsoluteFill style={{ alignItems: "center", justifyContent: "center", fontFamily: FONT, lineHeight: LH, opacity: show }}>
           <Sprite name="spr_logo_gemcore" scale={4} frame={0} />
-          <div style={{ fontSize: 56, color: C.paper, marginTop: 56 }}>{typed(TRAILER.tagline, f, 20, 30)}</div>
-          <div style={{ fontSize: 28, color: C.danger, marginTop: 22, opacity: interpolate(f, [90, 105], [0, 0.85], clamp) }}>{TRAILER.mantra}</div>
+          <div style={{ fontSize: 46, color: C.paper, marginTop: 44, minHeight: 46 * LH }}>{typed(TRAILER.tagline, f, 20, 30)}</div>
+          <div style={{ fontSize: 26, color: C.danger, opacity: interpolate(f, [90, 105], [0, 0.85], clamp) }}>{TRAILER.mantra}</div>
         </AbsoluteFill>
       </Glass>
     </Glitch>

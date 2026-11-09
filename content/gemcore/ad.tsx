@@ -3,7 +3,7 @@
 // print tells the truth in plain sight. No registerRoot here: pioneer-ad.tsx is the ad, leak-trailer.tsx reuses shots.
 import { AbsoluteFill, Audio, Easing, Sequence, interpolate, staticFile, useCurrentFrame } from "raea";
 import { AD } from "./lore";
-import { C, FONT, SOUNDS, Sprite, hash, s, typed, type SpriteName } from "./gemcore";
+import { C, FONT, LH, SOUNDS, Sprite, hash, s, typed, type SpriteName } from "./gemcore";
 
 const BEAT = s(4.8);
 const END = s(6);
@@ -19,9 +19,9 @@ export function Words({ i }: { i: number }) {
   const rise = interpolate(f, [8, 26], [40, 0], { ...clamp, easing: Easing.out(Easing.cubic) });
   const show = interpolate(f, [8, 22], [0, 1], clamp);
   return (
-    <div style={{ position: "absolute", left: 140, bottom: 150, fontFamily: FONT }}>
-      <div style={{ fontSize: 40, color: C.accent, letterSpacing: 4, height: 50 }}>{typed(kicker, f, 0, 45)}</div>
-      <div style={{ fontSize: 112, color: C.ink, opacity: show, transform: `translateY(${rise}px)`, marginTop: 10 }}>{line}</div>
+    <div style={{ position: "absolute", left: 140, bottom: 110, width: 1150, fontFamily: FONT, lineHeight: LH }}>
+      <div style={{ fontSize: 34, color: C.accent, letterSpacing: 4, minHeight: 34 * LH }}>{typed(kicker, f, 0, 45)}</div>
+      <div style={{ fontSize: 84, color: C.ink, opacity: show, transform: `translateY(${rise}px)` }}>{line}</div>
     </div>
   );
 }
@@ -111,14 +111,14 @@ export function Payout() {
     <AbsoluteFill style={{ background: C.paper, overflow: "hidden" }}>
       {Array.from({ length: 26 }, (_, i) => {
         const start = i * 5;
-        const y = Math.min(980 - Math.floor(i / 6) * 90, -120 + Math.max(0, f - start) * 34);
+        const y = Math.min(960 - Math.floor(i / 4) * 92, -120 + Math.max(0, f - start) * 34);
         return (
-          <div key={i} style={{ position: "absolute", left: 980 + (i % 6) * 135 + (hash(i) - 0.5) * 30, top: y }}>
+          <div key={i} style={{ position: "absolute", left: 1330 + (i % 4) * 120 + (hash(i) - 0.5) * 24, top: y }}>
             <Sprite name={gems[i % gems.length]} scale={4} fps={6} at={start} />
           </div>
         );
       })}
-      <div style={{ position: "absolute", right: 140, top: 140, fontFamily: FONT, fontSize: 150, color: C.ink, textAlign: "right" }}>
+      <div style={{ position: "absolute", left: 140, top: 120, fontFamily: FONT, fontSize: 120, lineHeight: LH, color: C.ink }}>
         {String(amount).replace(/\B(?=(\d{3})+(?!\d))/g, " ")} <span style={{ color: C.accent }}>{AD.payout.unit}</span>
       </div>
       <Words i={3} />
@@ -155,13 +155,13 @@ export function EndCard() {
   const scale = interpolate(f, [0, END], [1.04, 1]);
   const show = interpolate(f, [0, 12], [0, 1], clamp);
   return (
-    <AbsoluteFill style={{ background: C.paper, alignItems: "center", justifyContent: "center", fontFamily: FONT }}>
+    <AbsoluteFill style={{ background: C.paper, alignItems: "center", justifyContent: "center", fontFamily: FONT, lineHeight: LH }}>
       <div style={{ transform: `scale(${scale})`, opacity: show, display: "flex", flexDirection: "column", alignItems: "center", marginTop: -120 }}>
         <Sprite name="spr_logo_gemcore" scale={3} frame={0} />
-        <div style={{ fontSize: 64, color: C.accent, letterSpacing: 6, marginTop: 48 }}>{AD.program}</div>
-        <div style={{ fontSize: 52, color: C.ink, marginTop: 24 }}>{typed(AD.cta, f, 14, 40)}</div>
+        <div style={{ fontSize: 54, color: C.accent, letterSpacing: 6, marginTop: 40 }}>{AD.program}</div>
+        <div style={{ fontSize: 42, color: C.ink, marginTop: 8, minHeight: 42 * LH }}>{typed(AD.cta, f, 14, 40)}</div>
       </div>
-      <div style={{ position: "absolute", left: 140, right: 140, bottom: 60, fontSize: 24, color: C.ink, opacity: 0.85, lineHeight: 1.35 }}>
+      <div style={{ position: "absolute", left: 140, right: 140, bottom: 50, fontSize: 21, color: C.ink, opacity: 0.85, lineHeight: LH }}>
         {AD.fine.map((l) => <div key={l}>{l}</div>)}
       </div>
     </AbsoluteFill>
