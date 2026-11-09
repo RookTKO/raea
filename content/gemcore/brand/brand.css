@@ -1,0 +1,17 @@
+/* GemCore's look, from the game itself (GemCore: scripts/game_macros/game_macros.gml, UI colours).
+   Two worlds share one face. The public world is a warm brochure: off-white paper, ink, RookTKO orange.
+   The internal world is the cockpit terminal: black glass, off-white phosphor, danger red for what was hidden. */
+@font-face {
+  font-family: "Corp Console";
+  src: url("/media/static/font/Corp Console.ttf");
+}
+:root {
+  --paper: #f3e7e7;      /* UI_WHITE: the brochure's paper, the terminal's phosphor */
+  --ink: #464647;        /* c_off_black: the brochure's ink, every sprite's outline */
+  --glass: #0b0b0c;      /* the cockpit screen */
+  --accent: #df7126;     /* c_rooktko_orange: the brochure's one accent, the company's warmth */
+  --danger: #ff3860;     /* c_danger: only for what the record says the cockpit won't */
+  --success: #23d760;    /* c_success: the terminal's OK */
+  --warning: #ffdd57;    /* c_warning: the cockpit's counter */
+  --brand-font: "Corp Console", monospace;
+}

@@ -1,0 +1,3 @@
+# media/ is a link to a GemCore checkout (tools/link-gemcore.sh); GemCore's files never enter this repo
+/media
+/out/

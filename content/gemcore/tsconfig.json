@@ -1,0 +1,7 @@
+{
+  "//": "The SDK by name (raea, raea/<part>), as examples/ gets it. Check: sdk/raea/node_modules/.bin/tsc -p content/gemcore. brief.ts and *.script.ts import raea/brief, which raea's own bundler resolves: check those with raea spec.",
+  "extends": "../../sdk/tsconfig.base.json",
+  "compilerOptions": { "types": ["bun"], "typeRoots": ["../../sdk/raea/node_modules/@types"] },
+  "include": ["*.ts", "*.tsx", "tools/*.ts"],
+  "exclude": ["brief.ts", "*.script.ts", "media", "out"]
+}
