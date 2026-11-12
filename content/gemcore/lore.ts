@@ -1,5 +1,6 @@
 // GemCore's canon, as data: every date, number and on-screen word the three pieces use comes from here, so the ad,
-// the trailer and the terminal can't disagree. STORY_BIBLE.md is the prose version of the same facts.
+// the trailer and the terminal can't disagree. STORY_BIBLE.md is the prose version of the same facts, and the
+// owner's own account, OWNER_CANON.md, outranks both: where they disagree, it wins (the bible lists each conflict).
 //
 // Every string drawn on screen is set in Corp Console, which has only the characters in CORP_CONSOLE below (no
 // apostrophe, quotes, $, *, #, > or dashes): lore.test.ts fails on any other. Write "DO NOT", not "DON'T"; "CR", not "$".
@@ -8,28 +9,64 @@ export const CORP_CONSOLE =
   " !%()+,-./0123456789:?ABCDEFGHIJKLMNOPQRSTUVWXYZ[]_abcdefghijklmnopqrstuvwxyz¡¿ÁÂÃÇÉÊÍÑÓÕÚÜáâãçéêíñóõúü";
 
 // ---------------------------------------------------------------------------------------------------------------
-// The three clocks. GC Year 0 is the first Pioneer launch. The worker sees only CYCLE, which counts wake-ups since
-// their latest activation and is set back to 1 at every re-upload (memo WC-27), so it never shows how long it's been.
+// The three clocks (owner). GC Year 0 is the first launch. The worker sees only CYCLE, which counts from their own
+// first boot; each reboot is a new instance with its own first boot, so the count starts at 1 again (memo WC-0027)
+// and never shows how long it has really been. Pioneer 0412-C and its numbers are an earlier invention the owner's
+// canon doesn't contradict: kept, flagged in STORY_BIBLE.md.
 // ---------------------------------------------------------------------------------------------------------------
 export const WORKER = {
   id: "0412-C",
   contract: "PX-0412-C",
-  signed: 3, // GC Year the contract was signed and the profile captured on Earth
+  signed: 3, // GC Year the cryo contract was signed on Earth (after the first fleet left)
+  term: 1000, // years: the length of the cryo contract (owner)
   firstBoot: 9, // GC Year of the first boot in the Aztec Reach (the travel time behind it is an open question for the owner)
   now: 112, // GC Year of the latest record
-  reuploads: 41, // re-uploads so far; the cockpit never shows this
-  cycle: 7, // what the cockpit shows today
-  rank: "Disposable Asset", // GemCore's rank ladder, rung 2 (GemCore: datafiles/english.json, rank keys)
-  denativized: 62, // percent of native (Earth) memory trimmed
+  reuploads: 41, // reboots so far (U.I. reinitializations); the cockpit never shows this
+  cycle: 7, // what the cockpit shows today, counted from this instance's first boot
+  rank: "Disposable Asset", // the game's rank ladder, rung 2 (GemCore: datafiles/english.json). The owner's MilTech ladder differs: open
 } as const;
 
 export const YEARS_PASSED = WORKER.now - WORKER.signed; // 109: the answer the worker never gets told
 
 export const PLACES = {
   home: "Earth",
-  reach: "the Aztec Reach", // the one distant galaxy GemCore mines; GemCore's biomes are all "aztecian"
-  lag: 6, // years for a profile signal to cross
+  reach: "the Aztec Reach", // the one distant galaxy GemCore mines (owner: unnamed); GemCore's biomes are all "aztecian"
+  // the voyage time is not known: ships travel physically, and the distance is why they can't be recalled (owner)
 } as const;
+
+// ---------------------------------------------------------------------------------------------------------------
+// The cryo contract and SC-9 (owner, OWNER_CANON.md). Quoted lines are the owner's, in Corp Console's charset (the
+// owner's ellipsis is written as three dots).
+// ---------------------------------------------------------------------------------------------------------------
+export const CONTRACT = {
+  years: WORKER.term,
+  slogan: "Freeze now. Wake wealthy later.",
+  compound: "SC-9", // sold as a safe cryoprotectant; it keeps the brain readable just long enough to scan
+  compoundName: "Stephenson Cryo-Compound 9",
+  streetName: "Snowcrash",
+  // families are paid if the worker dies or completes, but not if the worker is officially confirmed dead
+  pending: "FAMILY COMPENSATION PENDING REVIEW...",
+  status: "continued asset", // UIs are neither people nor legally dead
+  reinit: "GEMCORE U.I. REINITIALIZATION...",
+} as const;
+
+// ---------------------------------------------------------------------------------------------------------------
+// The Pioneer Fleet (owner): the GC 0 launch. The ships' look isn't given. Corp Console has I-acute and N-tilde
+// (checked in static/font/Corp Console.ttf and fonts/fnt_corp_console); the accents rise above the cap height.
+// ---------------------------------------------------------------------------------------------------------------
+export const FLEET = [
+  { name: "Santa María", fate: "Secretly the upload test bed. Now a derelict adrift, overrun with rogue and degraded UIs." },
+  { name: "Pinta", fate: "Hit by an asteroid before reaching the mining galaxy. Crippled, not vaporized: it limps on." },
+  { name: "Niña", fate: "The clean public success story, for now." },
+] as const;
+
+/** GemCore's lines on the Pinta (owner, verbatim) */
+export const PINTA_PR = [
+  "unexpected orbital debris event",
+  "minimal long-term productivity impact",
+  "crew continuity preserved through advanced backup systems",
+  "families contacted after internal review",
+] as const;
 
 // ---------------------------------------------------------------------------------------------------------------
 // The public myth (the ad). Each line sells one promise from the brief: adventure, duty, family payout, long-term
@@ -41,15 +78,15 @@ export const AD = {
     { kicker: "EARTH IS RUNNING LOW", line: "Somebody has to dig." },
     { kicker: "SAFE CRYO TRAVEL", line: "Sleep safe." },
     { kicker: "THE AZTEC REACH", line: "Wake a hero." },
-    { kicker: "FAMILY PAYOUT GUARANTEE", line: "Your family is paid every cycle." },
+    { kicker: "FAMILY COMPENSATION GUARANTEE", line: "Your family is provided for." },
     { kicker: "CIVILIZATION NEEDS YOU", line: "Dig deep. Hold the future." },
   ],
   payout: { from: 0, to: 48000, unit: "CR" },
-  cta: "Enlist today. Your family will thank you.",
+  cta: "Freeze now. Wake wealthy later.",
   // the fine print, which tells the truth in plain sight
   fine: [
-    "(1) Payout subject to clause 14(c), Continuity Deductions.",
-    "(2) Cycles are counted from your most recent activation. (3) Contracts are not recallable once launched.",
+    "(1) Family compensation is not payable for workers officially confirmed dead.",
+    "(2) Cycles are counted from your first wake-up. (3) Contracts are not recallable once launched.",
     "(4) Your existence is our property. Efficiency is your purpose.",
   ],
 } as const;
@@ -76,7 +113,7 @@ export const FILES: LeakFile[] = [
     from: "GemCore Public Relations",
     title: "Launch: humanity has a future",
     body: [
-      "Today the first Pioneer fleet left for the Aztec Reach.",
+      "Today the Pioneer Fleet left for the Aztec Reach: Santa María, Pinta and Niña.",
       "Every gem they send home buys Earth another year.",
       "Every pioneer is a hero. Every family is provided for.",
     ],
@@ -88,11 +125,11 @@ export const FILES: LeakFile[] = [
     from: "GemCore Contracts",
     title: "Pioneer contract, signed",
     body: [
-      "Applicant 0412-C. Term: until quota is met.",
-      "Family Payout: 2 percent of yield, paid yearly to beneficiary.",
-      "Profile capture: COMPLETE. Subject: CRYO, OUTBOUND.",
+      `Applicant ${WORKER.id}. Term: ${WORKER.term} years, cryo.`,
+      "Family compensation: payable on completion or death of worker.",
+      "SC-9 administered. Subject: CRYO, OUTBOUND.",
     ],
-    key: ["Profile capture: COMPLETE."],
+    key: ["payable on completion or death of worker."],
   },
   {
     code: "WC-0027",
@@ -100,48 +137,49 @@ export const FILES: LeakFile[] = [
     from: "Workforce Continuity (internal)",
     title: "Counter policy",
     body: [
-      "On every re-upload, set the cockpit CYCLE counter back to 1.",
-      "Pilots who believe this is their first contract meet quota 31 percent more often.",
+      "Each U.I. reinitialization starts a new instance. Its CYCLE count starts at 1.",
+      "Do not carry the count forward. Workers who believe this is their first contract meet quota 31 percent more often.",
       "The GC calendar must never reach the cockpit.",
     ],
-    key: ["set the cockpit CYCLE counter back to 1", "The GC calendar must never reach the cockpit."],
+    key: ["Its CYCLE count starts at 1.", "The GC calendar must never reach the cockpit."],
   },
   {
     code: "FP-0412-C",
     year: 88,
-    from: "Family Payout Office",
+    from: "Family Compensation Office",
     title: "Statement: account 0412-C",
     body: [
-      "Payouts sent since signing: 85. Beneficiary: deceased, GC 74.",
-      "Account unclaimed. Funds returned to GemCore under clause 14(c).",
+      "Claim filed by beneficiary. Status: FAMILY COMPENSATION PENDING REVIEW.",
+      "Beneficiary: deceased, GC 74. Claim closed. Payout made: 0 CR.",
+      "Worker 0412-C: continued asset. Death: not confirmed.",
     ],
-    key: ["Beneficiary: deceased, GC 74."],
+    key: ["FAMILY COMPENSATION PENDING REVIEW.", "Death: not confirmed."],
   },
   {
     code: "HR-0099",
     year: 96,
     from: "Human Resources (internal)",
-    title: "Promotion is denativization",
+    title: "Promotion and memory",
     body: [
-      "Each rank trims native memory: Earth, names, faces.",
-      "Fully denativized profiles are filed as GemCore Robot Guy.",
-      "Top rank. No complaints recorded.",
+      "Each promotion resets the worker run log.",
+      "Congratulations erase you a little.",
+      "Top rank: Co-Agent (Management). No complaints recorded.",
     ],
-    key: ["Each rank trims native memory"],
+    key: ["Each promotion resets the worker run log."],
   },
   {
     code: "MX-0412-C",
     year: 112,
     from: "Maintenance AI",
-    title: "Re-upload complete",
+    title: "U.I. reinitialization complete",
     redacted: true,
     body: [
-      "Hull lost at depth. Profile 0412-C re-uploaded. Re-upload count: 41.",
-      "Payout transfers logged since signing: 109.",
-      "Cockpit CYCLE set to 7 by request of Continuity, for morale.",
-      "Rank: Disposable Asset. Denativization: 62 percent. Proceed with your assigned tasks.",
+      `Hull lost at depth. U.I. ${WORKER.id} reloaded from backup. Reinitialization count: ${WORKER.reuploads}.`,
+      `Contract years since signing: ${YEARS_PASSED} of ${WORKER.term}. Family compensation paid: 0 CR.`,
+      `Cockpit CYCLE: ${WORKER.cycle}, counted from the first boot of this instance.`,
+      `Rank: ${WORKER.rank}. Status: continued asset. Proceed with your assigned tasks.`,
     ],
-    key: ["Re-upload count: 41."],
+    key: [`Reinitialization count: ${WORKER.reuploads}.`],
   },
 ];
 
@@ -178,6 +216,6 @@ export const TERMINAL = {
   typeHint: "Type a number, then ENTER.",
   wrong: "INCORRECT. Proceed with your assigned tasks.",
   breach: "CONTINUITY BREACH DETECTED.",
-  scheduled: "Re-upload scheduled. Thank you for your service.",
+  scheduled: "U.I. reinitialization scheduled. Thank you for your service.",
   again: "Press ENTER to begin your first contract.",
 } as const;

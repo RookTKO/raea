@@ -26,21 +26,24 @@ export const INITIAL: Term = {
 
 // ------------------------------------------------------------------------------------------------------------------
 // The attract run: key taps at frames (each held 2 frames). Reads the contract, guesses the cockpit's number, reads
-// the counter policy and the redacted file, then answers both queries and breaks continuity.
+// the counter policy, the family's claim and the redacted file, then answers both queries and breaks continuity.
 // ------------------------------------------------------------------------------------------------------------------
 const TAPS: [number, string][] = [];
 {
   let t = 40;
+  let sel = 0; // where the list cursor is, so each file is found by its code, not by its place in the list
   const tap = (k: string, wait = 8) => { TAPS.push([t, k]); t += wait; };
-  const open = (from: number, to: number, read: number) => {
-    for (let i = from; i < to; i++) tap("ArrowDown", 7);
+  const open = (code: string, read: number) => {
+    const i = FILES.findIndex((f) => f.code === code);
+    for (; sel !== i; sel = (sel + 1) % FILES.length) tap("ArrowDown", 7);
     tap("Enter", read);
     tap("Escape", 14);
   };
-  open(0, 1, 110); // PX-0412-C: signed GC 3
+  open("PX-0412-C", 110); // signed GC 3, a 1000-year term
   tap("q", 30); tap("7", 30); tap("Enter", 80); // the cockpit says 7: wrong
-  open(1, 3, 120); // WC-0027: the counter is reset
-  open(3, 6, 150); // MX-0412-C: 41 re-uploads, 109 payouts since signing
+  open("WC-0027", 120); // each reboot starts the CYCLE at 1
+  open("FP-0412-C", 120); // the family, never paid
+  open("MX-0412-C", 150); // 41 reinitializations, 109 years since signing
   tap("q", 30); tap("1", 10); tap("1", 10); tap("2", 26); tap("Enter", 50);
   tap("4", 10); tap("1", 26); tap("Enter", 200);
   tap("Enter", 60); // begin your "first" contract

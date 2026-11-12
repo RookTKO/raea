@@ -29,12 +29,12 @@ export default script({
     },
     {
       heading: "The record",
-      payoff: "The real clock, file by file: the counter is reset, the family is gone, 41 re-uploads.",
+      payoff: "The real clock, file by file: a 1000-year contract, a new CYCLE 1 at every reboot, a family never paid, 41 reinitializations.",
       beats: [
         {
-          onScreen: "Seven files, each with its GC Year huge and red on the left and its text typing on the right; the key lines turn red. A timeline marker runs from GC 0 to GC 112 along the bottom.",
+          onScreen: "Six files, each with its GC Year huge and red on the left and its text typing on the right; the key lines turn red. A timeline marker runs from GC 0 to GC 112 along the bottom.",
           camera: "each file slides in on its cut, date from below, text from the right",
-          cues: ["radar blips on the counter policy, the payout statement and the re-upload count", "the score lifts for the last files"],
+          cues: ["radar blips on the counter policy, the compensation statement and the reinitialization count", "the score lifts for the last files"],
           seconds: 22,
         },
       ],
@@ -52,7 +52,7 @@ export default script({
       heading: "The reset",
       beats: [
         {
-          onScreen: "The ship breaks apart; white flash; RE-UPLOAD 42 ... CYCLE 1, the counter jittering from 7 to 1.",
+          onScreen: "The ship breaks apart; white flash; RE-UPLOAD 42 ... CYCLE 1, the counter jittering from 7 to 1: a new instance, a new first boot.",
           cut: "hard cut on the impact",
           cues: ["impact", "glass break"],
           seconds: 5,
