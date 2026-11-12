@@ -29,7 +29,7 @@ export default script({
     },
     {
       heading: "The record",
-      payoff: "The real clock, file by file: no bodies left Earth, the counter is reset, the family is gone, 41 re-uploads.",
+      payoff: "The real clock, file by file: the counter is reset, the family is gone, 41 re-uploads.",
       beats: [
         {
           onScreen: "Seven files, each with its GC Year huge and red on the left and its text typing on the right; the key lines turn red. A timeline marker runs from GC 0 to GC 112 along the bottom.",

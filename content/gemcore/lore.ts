@@ -15,7 +15,7 @@ export const WORKER = {
   id: "0412-C",
   contract: "PX-0412-C",
   signed: 3, // GC Year the contract was signed and the profile captured on Earth
-  firstBoot: 9, // GC Year the profile first woke in the Aztec Reach (6 years of signal lag)
+  firstBoot: 9, // GC Year of the first boot in the Aztec Reach (the travel time behind it is an open question for the owner)
   now: 112, // GC Year of the latest record
   reuploads: 41, // re-uploads so far; the cockpit never shows this
   cycle: 7, // what the cockpit shows today
@@ -48,9 +48,9 @@ export const AD = {
   cta: "Enlist today. Your family will thank you.",
   // the fine print, which tells the truth in plain sight
   fine: [
-    "(1) Cryo is a brand term. (2) Payout subject to clause 14(c), Continuity Deductions.",
-    "(3) Cycles are counted from your most recent activation. (4) Contracts are not recallable once transmitted.",
-    "(5) Your existence is our property. Efficiency is your purpose.",
+    "(1) Payout subject to clause 14(c), Continuity Deductions.",
+    "(2) Cycles are counted from your most recent activation. (3) Contracts are not recallable once launched.",
+    "(4) Your existence is our property. Efficiency is your purpose.",
   ],
 } as const;
 
@@ -90,21 +90,9 @@ export const FILES: LeakFile[] = [
     body: [
       "Applicant 0412-C. Term: until quota is met.",
       "Family Payout: 2 percent of yield, paid yearly to beneficiary.",
-      "Profile capture: COMPLETE. Subject body: RETIRED.",
+      "Profile capture: COMPLETE. Subject: CRYO, OUTBOUND.",
     ],
-    key: ["Subject body: RETIRED."],
-  },
-  {
-    code: "PS-0019",
-    year: 3,
-    from: "Profile Services (internal)",
-    title: "On the word cryo",
-    body: [
-      "Cryo is a brand term. No body has ever left Earth.",
-      "Pioneers are sent as profiles, by signal.",
-      "Do not correct applicants. They sign faster when they think they will sleep.",
-    ],
-    key: ["No body has ever left Earth."],
+    key: ["Profile capture: COMPLETE."],
   },
   {
     code: "WC-0027",

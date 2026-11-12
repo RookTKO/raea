@@ -21,7 +21,7 @@ export default script({
       payoff: "The call to enlist, and the five fine-print lines that say everything the leak will.",
       beats: [
         {
-          onScreen: "GemCore logo, THE PIONEER PROGRAM, Enlist today. Your family will thank you. Fine print: cryo is a brand term; payout subject to clause 14(c); cycles counted from your most recent activation; contracts not recallable; your existence is our property.",
+          onScreen: "GemCore logo, THE PIONEER PROGRAM, Enlist today. Your family will thank you. Fine print: payout subject to clause 14(c); cycles counted from your most recent activation; contracts not recallable; your existence is our property.",
           camera: "settles from 104% to 100%",
           cues: ["theme fades over the last 2 s"],
           seconds: 6,

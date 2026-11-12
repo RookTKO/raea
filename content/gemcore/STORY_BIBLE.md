@@ -10,13 +10,21 @@ bad enough to justify mining in deep space and deep underground. Corporations no
 who work for them. Labour is sold through contracts, patriotism and false promises, and ordinary people are steered
 into "opportunities" that are really traps. That is where GemCore comes from.
 
+## Corrections
+
+- **2026-11-12, the owner:** "No there was cryo and people did leave earth." This replaced an earlier agent's invention
+  ("cryo is a brand term", "no body has ever left Earth", bodies "retired", pioneers sent "as profiles, by signal",
+  6 years of signal lag) and removed the file PS-0019. Renders made before it still show the old version: Case File
+  0412-C (the ID card's BODY: RETIRED and the PS-0019 card), The Leak (its file sequence), the Pioneer Program ad
+  (its fine print), Two Clocks (the PS-0019 ledger line) and Pioneer Terminal's attract run.
+
 ## The three layers
 
 All three are true at once. The clue is the mismatch between them.
 
 | Layer | What it is | What the player sees |
 |---|---|---|
-| **Setting** | Earth is the permanent home base. All mining happens in one distant galaxy, **the Aztec Reach** (GemCore's biomes are all "aztecian"). A profile signal takes **6 years** to cross, so once a pioneer is sent, they can't be recalled. | The Reach, never Earth. |
+| **Setting** | Earth is the permanent home base. All mining happens in one distant galaxy, **the Aztec Reach** (GemCore's biomes are all "aztecian"). Pioneers travel there **in cryo**: people physically leave Earth. Once launched, they can't be recalled. (How long the journey takes is an open question.) | The Reach, never Earth. |
 | **Record** | GemCore's internal logs, files and leaks are dated on a corporate calendar: **GC Year 0 is the first Pioneer launch.** | Only what leaks. |
 | **Worker** | The pioneer's only clock is **CYCLE**, a count of wake-ups since their latest activation. It goes back to 1 at every re-upload. | `CYCLE 7`, and "DATE: NOT AVAILABLE TO PIONEERS". |
 
@@ -35,8 +43,11 @@ it is now GC 112. That's 109 years and 41 re-uploads, against a cockpit that say
 - pioneers as heroes
 
 **The machine.** A process for turning human identity into reusable labour:
-- **Cryo is a brand term.** No body has ever left Earth. At signing, the applicant's profile is captured and their
-  body is "retired" (PX-0412-C, PS-0019). Pioneers travel as profiles, by signal.
+- **Cryo is real, and people left Earth** (the owner, 2026-11-12: "No there was cryo and people did leave earth.").
+  The GC 0 launch sent people, in cryo, to the Aztec Reach. At signing, the applicant's profile is also captured
+  (PX-0412-C). **Open question for the owner:** how a pioneer who travelled in cryo relates to the re-uploads below
+  (is the mind moved from the body into the ships on arrival? what happens to the body?). Don't build a piece's
+  reveal on an answer until the owner gives one.
 - **Ships are bodies.** A profile wakes inside a drill ship. When the hull is lost, the profile is **re-uploaded**
   into a new one: "shorter consciousness re-upload times meant faster redeployment" (GemCore's own hangar text).
 - **The counter is reset on purpose** (WC-0027, GC 27). Pilots who believe this is their first contract meet quota
@@ -53,7 +64,7 @@ it is now GC 112. That's 109 years and 41 re-uploads, against a cockpit that say
 | Fact | Value |
 |---|---|
 | Contract | PX-0412-C, signed **GC 3**, term "until quota is met" |
-| First boot in the Reach | GC 9 (6 years of signal lag) |
+| First boot in the Reach | GC 9 (the journey time behind it is unconfirmed) |
 | Now | **GC 112** |
 | Re-uploads | **41** (the cockpit never shows this) |
 | Cockpit | **CYCLE 7** |
@@ -65,8 +76,7 @@ it is now GC 112. That's 109 years and 41 re-uploads, against a cockpit that say
 | GC | File | From | What it gives away |
 |---|---|---|---|
 | 0 | PR-0001 | Public Relations | "Every family is provided for." |
-| 3 | PX-0412-C | Contracts | Profile capture complete. **Subject body: retired.** |
-| 3 | PS-0019 | Profile Services | **No body has ever left Earth.** Cryo is a brand term. |
+| 3 | PX-0412-C | Contracts | Profile capture complete. Subject: cryo, outbound. |
 | 27 | WC-0027 | Workforce Continuity | **Reset the CYCLE counter to 1 on every re-upload.** |
 | 88 | FP-0412-C | Family Payout Office | Beneficiary deceased, GC 74; funds returned to GemCore. |
 | 96 | HR-0099 | Human Resources | Each rank trims native memory. |
